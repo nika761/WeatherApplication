@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="white">#F3F1F1</color>
+    <color name="orange">#FFA000</color>
+    <color name="gray">#9050666B</color>
+    <color name="black">#C80F0F0F</color>
+    <color name="trueBlack">#000000</color>
+    <color name="yellow">#F3E701</color>
+    <color name="orange25">#BCF8C50C</color>
+    <color name="blue">#D80239FF</color>
+    <color name="blackforcardview">#6A000000</color>
+
+
+
+</resources>

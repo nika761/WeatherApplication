@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/trueBlack"
+    tools:context=".presentation.activityUI.TomorrowWeatherActivity">
+
+    <LinearLayout
+        android:id="@+id/cityName_location"
+        android:background="@drawable/background_for_location_city_toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:orientation="horizontal"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="3dp"
+        android:layout_width="0dp"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:background="@drawable/ic_location_on_black_24dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/city_name_weekly"
+            android:layout_gravity="center"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textStyle="bold"
+            android:hint=" Conecting..."
+            android:drawablePadding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_layout_weekly"
+        app:layout_constraintTop_toBottomOf="@id/cityName_location"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/trueBlack"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
