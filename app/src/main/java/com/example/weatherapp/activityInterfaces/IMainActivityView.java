@@ -7,5 +7,5 @@ public interface IMainActivityView {
     void onUpdateWeather(WeatherMainState weather);
     void onUpdateWeatherByCord (WeatherMainStateByCord weatherMainStateByCord);
     void onFailure();
-    void endProgressDialog();
+    void endProgressDialogAndRefreshing();
 }

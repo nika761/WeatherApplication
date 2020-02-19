@@ -1,12 +1,14 @@
 package com.example.weatherapp.presenters;
 
 import android.annotation.SuppressLint;
+import android.widget.Toast;
 
 import com.example.weatherapp.model.WeatherMainState;
 import com.example.weatherapp.model.WeatherMainStateByCord;
 import com.example.weatherapp.network.ApiService;
 import com.example.weatherapp.network.RetrofitManager;
 import com.example.weatherapp.activityInterfaces.IMainActivityView;
+import com.example.weatherapp.presentation.activityUI.MainActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -30,7 +32,7 @@ public class MainActivityPresenter {
             @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(@NotNull Call<WeatherMainState> call, @NotNull Response<WeatherMainState> response) {
-                mainActivityView.endProgressDialog();
+                mainActivityView.endProgressDialogAndRefreshing();
                 if (response.code() == 404){
                     mainActivityView.onFailure();
                 }
@@ -42,7 +44,6 @@ public class MainActivityPresenter {
 
             @Override
             public void onFailure(Call<WeatherMainState> call, Throwable t) {
-
             }
         });
     }
@@ -51,7 +52,7 @@ public class MainActivityPresenter {
         serviceCord.fetchForecastByCord(lat,lon,"metric","0559b29e30ef329bb28d598ec6bab17d").enqueue(new Callback<WeatherMainStateByCord>() {
             @Override
             public void onResponse(@NotNull Call<WeatherMainStateByCord> call, @NotNull Response<WeatherMainStateByCord> response) {
-                mainActivityView.endProgressDialog();
+                mainActivityView.endProgressDialogAndRefreshing();
                 if (response.isSuccessful()){
                     WeatherMainStateByCord weatherMainStateByCord = response.body();
                     mainActivityView.onUpdateWeatherByCord(weatherMainStateByCord);
@@ -60,7 +61,6 @@ public class MainActivityPresenter {
 
             @Override
             public void onFailure(Call<WeatherMainStateByCord> call, Throwable t) {
-
             }
         });
     }

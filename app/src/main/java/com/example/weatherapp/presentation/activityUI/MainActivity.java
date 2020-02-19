@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -13,6 +14,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -35,8 +39,11 @@ import com.example.weatherapp.activityInterfaces.IMainActivityView;
 import com.example.weatherapp.model.WeatherMainState;
 import com.example.weatherapp.model.WeatherMainStateByCord;
 import com.example.weatherapp.presenters.MainActivityPresenter;
+import com.google.android.gms.dynamic.IFragmentWrapper;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.Task;
+
+import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
 
@@ -46,19 +53,21 @@ public class MainActivity extends AppCompatActivity implements IMainActivityView
     private ProgressDialog progressDialog;
     private EditText editTextForCity;
     private TextView searchButtonForCity,temperature,cityName,humidity,windSpeed,weatherDescription,date,precipitation,tomorrow,weekly;
+    private static final int LOCATION_REQUEST_CODE = 777;
     private ImageView weatherIcon;
     private int cityID;
     private String lat;
     private String lon;
+    private SwipeRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        presenter = new MainActivityPresenter(this);
         iniUI();
         addListeners();
-        presenter = new MainActivityPresenter(this);
-        onGetLocation();
+        onNetworkConnectionChecked();
         focusHelper();
     }
 
@@ -76,25 +85,42 @@ public class MainActivity extends AppCompatActivity implements IMainActivityView
         tomorrow = findViewById(R.id.tomorrow);
         weekly = findViewById(R.id.weekly);
         searchButtonForCity = findViewById(R.id.search_button);
+        refreshLayout = findViewById(R.id.swipe_refresh_layout);
         date.setText(DateHelper.getCurrentDate());
     }
 
     private void addListeners(){
         tomorrow.setOnClickListener(v ->{
-            startTomorrowWeatherActivity();
+            if (checkNetworkConnection()){
+                startTomorrowWeatherActivity();
+            }else {
+                Toast.makeText(this," Network connection not available ",Toast.LENGTH_LONG).show();
+            }
         });
 
         weekly.setOnClickListener(v ->{
-            startWeeklyWeatherActivity();
+            if (checkNetworkConnection()){
+                startWeeklyWeatherActivity();
+            } else {
+                Toast.makeText(this," Network connection not available ",Toast.LENGTH_LONG).show();
+            }
         });
 
         searchButtonForCity.setOnClickListener(v -> {
-            startProgressDialog();
             final String city = editTextForCity.getText().toString();
-            presenter.fetchForecast(city);
+            if (city.isEmpty()){
+                Toast.makeText(this," City Not Entered ",Toast.LENGTH_LONG).show();
+            } else if (!checkNetworkConnection()) {
+                Toast.makeText(this," Network connection not available ",Toast.LENGTH_LONG).show();
+            } else {
+                startProgressDialog();
+                presenter.fetchForecast(city);
+            }
             editTextForCity.getText().clear();
             editTextForCity.clearFocus();
         });
+
+        refreshLayout.setOnRefreshListener(this::onNetworkConnectionChecked);
     }
 
     public void focusHelper(){
@@ -136,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivityView
                 .apply(new RequestOptions().centerCrop()).into(weatherIcon);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onUpdateWeatherByCord(WeatherMainStateByCord weatherMainStateByCord) {
         cityName.setText(weatherMainStateByCord.getName());
@@ -166,28 +193,59 @@ public class MainActivity extends AppCompatActivity implements IMainActivityView
         progressDialog = new ProgressDialog(MainActivity.this);
         progressDialog.setMax(100);
         progressDialog.setMessage("Loading...");
-        progressDialog.setTitle("Please wait. ");
+        progressDialog.setTitle("Please Wait.. ");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
     }
 
-    public void endProgressDialog(){
+    public void endProgressDialogAndRefreshing(){
+        refreshLayout.setRefreshing(false);
         progressDialog.dismiss();
     }
 
     public void startTomorrowWeatherActivity (){
-        Intent intent = new Intent(this,TomorrowWeatherActivity.class);
-        intent.putExtra("cityID", cityID);
-        startActivity(intent);
+        if (cityID != 0){
+            Intent intent = new Intent(this,TomorrowWeatherActivity.class);
+            intent.putExtra("cityID", cityID);
+            startActivity(intent);
+        }else {
+            Toast.makeText(this," Name of City not entered ", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void startWeeklyWeatherActivity(){
-        Intent intent = new Intent(this,WeeklyWeatherActivity.class);
-        intent.putExtra("cityID", cityID);
-        startActivity(intent);
+        if (cityID != 0){
+            Intent intent = new Intent(this,WeeklyWeatherActivity.class);
+            intent.putExtra("cityID", cityID);
+            startActivity(intent);
+        }else {
+            Toast.makeText(this," Name of City not entered ", Toast.LENGTH_LONG).show();
+        }
     }
 
-    public void onGetLocation() {
+    public boolean checkNetworkConnection(){
+        boolean wifiConnected = false;
+        boolean mobileDataConnected = false;
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = Objects.requireNonNull(connectivityManager).getActiveNetworkInfo() ;
+        if (networkInfo != null && networkInfo.isConnected()){
+            wifiConnected = networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
+            mobileDataConnected = networkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
+        }
+        return wifiConnected||mobileDataConnected;
+    }
+
+    public void onNetworkConnectionChecked (){
+        if (checkNetworkConnection()){
+            onGetLocationPermission();
+        } else if (!checkNetworkConnection()){
+            refreshLayout.setRefreshing(false);
+            Toast.makeText(this," Network connection not available ",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void onGetLocationPermission() {
         if (isLocationPermissionGranted()) {
            getLocation();
         } else{
@@ -211,6 +269,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivityView
                 }else {
                     Toast.makeText(this, "Location services turned off ",
                             Toast.LENGTH_LONG).show();
+                    requestLocationPermission();
                 }
             }
         });
@@ -221,7 +280,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivityView
         return result == PackageManager.PERMISSION_GRANTED;
     }
 
-    private static final int LOCATION_REQUEST_CODE = 777;
     private void requestLocationPermission (){
         ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},LOCATION_REQUEST_CODE);
     }
