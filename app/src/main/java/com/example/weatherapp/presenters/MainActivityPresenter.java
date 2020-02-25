@@ -35,8 +35,7 @@ public class MainActivityPresenter {
                 mainActivityView.endProgressDialogAndRefreshing();
                 if (response.code() == 404){
                     mainActivityView.onFailure();
-                }
-                 if (Objects.requireNonNull(response).isSuccessful()){
+                }else if (Objects.requireNonNull(response).isSuccessful()){
                          WeatherMainState weather = response.body();
                          mainActivityView.onUpdateWeather(weather);
                      }
@@ -44,6 +43,7 @@ public class MainActivityPresenter {
 
             @Override
             public void onFailure(Call<WeatherMainState> call, Throwable t) {
+                mainActivityView.onFailure();
             }
         });
     }

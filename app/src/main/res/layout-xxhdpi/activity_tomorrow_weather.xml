@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/trueBlack"
     tools:context=".presentation.activityUI.TomorrowWeatherActivity">
 
     <LinearLayout
         android:id="@+id/cityName_location"
-        android:background="@color/orange"
+        android:background="@drawable/background_for_location_city_toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -17,6 +18,10 @@
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:orientation="horizontal"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="3dp"
         android:layout_width="0dp"
         android:layout_height="50dp">
 
@@ -29,13 +34,16 @@
         <TextView
             android:id="@+id/city_name_tomorrow"
             android:layout_gravity="center"
+            android:gravity="center|fill"
             android:textSize="18sp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textStyle="bold"
-            android:hint=" Kutaisi, Georgia "
+            android:hint=" Loading..."
+            android:drawablePadding="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -49,5 +57,6 @@
         android:layout_height="0dp">
 
     </androidx.recyclerview.widget.RecyclerView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

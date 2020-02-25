@@ -9,6 +9,7 @@
     android:background="@color/trueBlack"
     android:padding="10dp"
     tools:context=".presentation.activityUI.MainActivity">
+
     <EditText
         android:textDirection="locale"
         android:id="@+id/text_view_city_search"
@@ -16,7 +17,7 @@
         android:layout_height="0dp"
         android:background="@drawable/background_for_edittext_search"
         android:gravity="center"
-        android:hint="Search your city "
+        android:hint="Search city"
         android:textColor="@color/white"
         android:singleLine="true"
         android:imeOptions="actionDone"
@@ -61,7 +62,7 @@
             android:id="@+id/frame_for_monthly_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
