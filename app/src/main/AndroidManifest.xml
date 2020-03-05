@@ -27,7 +27,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".presentation.activityUI.WeeklyWeatherActivity" />
-        <activity android:name=".presentation.activityUI.TomorrowWeatherActivity" />
         <activity android:name=".presentation.activityUI.MainActivity" />
     </application>
 

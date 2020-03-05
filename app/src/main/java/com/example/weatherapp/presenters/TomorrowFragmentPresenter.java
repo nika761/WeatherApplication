@@ -5,7 +5,7 @@ import com.example.weatherapp.model.ListItems;
 import com.example.weatherapp.model.WeatherMainStatebyID;
 import com.example.weatherapp.network.ApiService;
 import com.example.weatherapp.network.RetrofitManager;
-import com.example.weatherapp.activityInterfaces.ITomorrowWeatherView;
+import com.example.weatherapp.activityInterfaces.ITomorrowFragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,10 +17,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TomorrowWeatherActivityPresenter {
-    private ITomorrowWeatherView tomorrowWeatherView;
+public class TomorrowFragmentPresenter {
+    private ITomorrowFragment tomorrowWeatherView;
 
-    public TomorrowWeatherActivityPresenter(ITomorrowWeatherView tomorrowWeatherView) {
+    public TomorrowFragmentPresenter(ITomorrowFragment tomorrowWeatherView) {
         this.tomorrowWeatherView = tomorrowWeatherView;
     }
 
