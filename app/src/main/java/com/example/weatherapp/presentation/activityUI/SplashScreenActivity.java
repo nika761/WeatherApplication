@@ -36,7 +36,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void makeAnimation(){
-        Animation animation = AnimationUtils.loadAnimation(this,R.anim.animation_for_splash);
+        Animation animation = AnimationUtils.loadAnimation(this,R.anim.animation_recycler_item);
         icon.startAnimation(animation);
         appName.startAnimation(animation);
         copyright.startAnimation(animation);

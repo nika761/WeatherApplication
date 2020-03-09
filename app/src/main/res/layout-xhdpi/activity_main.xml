@@ -43,7 +43,7 @@
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@id/linear_for_monthly_view"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,14 +72,14 @@
         android:layout_marginBottom="5dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/today"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
+            android:layout_width="85dp"
+            android:layout_height="42dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/click_state"
             android:clickable="true"
@@ -90,8 +90,8 @@
 
         <TextView
             android:id="@+id/tomorrow"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
+            android:layout_width="85dp"
+            android:layout_height="42dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/click_state"
             android:clickable="true"
@@ -102,8 +102,8 @@
 
         <TextView
             android:id="@+id/weekly"
-            android:layout_width="80dp"
-            android:layout_height="35dp"
+            android:layout_width="85dp"
+            android:layout_height="42dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/click_state"
             android:clickable="true"

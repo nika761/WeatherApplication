@@ -28,8 +28,8 @@
 
             <ImageView
                 android:id="@+id/weather_icon"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 app:layout_constraintEnd_toStartOf="@id/city_name_layout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/frame_for_monthly_view" />

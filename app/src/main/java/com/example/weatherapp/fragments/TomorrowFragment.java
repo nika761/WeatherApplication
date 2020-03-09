@@ -24,12 +24,12 @@ public class TomorrowFragment extends Fragment implements ITomorrowFragment {
     private TomorrowFragmentPresenter presenter;
     private RecyclerView recyclerView;
     private TextView cityName;
-    private List <ListItems> listItems;
+    private List<ListItems> listItems;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tomorrow_weather,container,false);
+        View view = inflater.inflate(R.layout.fragment_tomorrow_weather, container, false);
         return view;
     }
 
@@ -41,7 +41,7 @@ public class TomorrowFragment extends Fragment implements ITomorrowFragment {
         onGetCityID();
     }
 
-    private void iniUI(View v){
+    private void iniUI(View v) {
         cityName = v.findViewById(R.id.city_name_tomorrow_fragment);
         recyclerView = v.findViewById(R.id.recycler_layout_fragment);
     }
@@ -49,11 +49,14 @@ public class TomorrowFragment extends Fragment implements ITomorrowFragment {
     @Override
     public void onUpdateWeatherByID(String s, List<ListItems> listItems) {
         cityName.setText(s);
+        if (s.equals("Tbilisi")) {
+            recyclerView.setBackground(getResources().getDrawable(R.drawable.tbilisi_back_1));
+        }
         this.listItems = listItems;
         iniRecyclerAdapter(listItems);
     }
 
-    private void iniRecyclerAdapter (List updatedListWeather){
+    private void iniRecyclerAdapter(List updatedListWeather) {
         ForecastAdapter adapter = new ForecastAdapter(getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
@@ -61,7 +64,7 @@ public class TomorrowFragment extends Fragment implements ITomorrowFragment {
         adapter.setListItems(updatedListWeather);
     }
 
-    private void onGetCityID (){
+    private void onGetCityID() {
         int city = this.getArguments().getInt("id");
         presenter.fetchForecast(city);
     }

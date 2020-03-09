@@ -14,6 +14,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements ITodayFragmentToM
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         iniUI();
-        addListeners();
+        addClickListeners();
         checkLocationPermission();
         focusHelper();
     }
@@ -62,7 +64,14 @@ public class MainActivity extends AppCompatActivity implements ITodayFragmentToM
         refreshLayout = findViewById(R.id.swipe_refresh_layout);
     }
 
-    private void addListeners() {
+    private void setAnimations() {
+        final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.animation_buttons);
+        today.startAnimation(myAnim);
+        tomorrow.startAnimation(myAnim);
+        weekly.startAnimation(myAnim);
+    }
+
+    private void addClickListeners() {
 
         today.setOnClickListener(this::dayClicked);
         tomorrow.setOnClickListener(this::dayClicked);
@@ -78,8 +87,10 @@ public class MainActivity extends AppCompatActivity implements ITodayFragmentToM
                 //startProgressDialog();
                 //presenter.fetchForecast(city);
                 todayFragment = new TodayFragment(this);
-                initFragment(todayFragment, 0, null, null, city);
+                loadFragment(todayFragment, 0, null, null, city);
                 today.setBackground(getResources().getDrawable(R.drawable.background_for_today));
+                tomorrow.setBackground(getResources().getDrawable(R.drawable.background_for_weeks));
+                weekly.setBackground(getResources().getDrawable(R.drawable.background_for_weeks));
             }
             editTextForCity.getText().clear();
             editTextForCity.clearFocus();
@@ -96,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements ITodayFragmentToM
                 weekly.setBackground(getResources().getDrawable(R.drawable.background_for_weeks));
                 todayFragment = new TodayFragment(this);
                 if (checkNetworkConnection(this)) {
-                    initFragment(todayFragment, 0, lat, lon, null);
+                    loadFragment(todayFragment, 0, lat, lon, null);
                 } else {
                     ToastHelper.noConnectionServiceToast(this);
                 }
@@ -108,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements ITodayFragmentToM
                 weekly.setBackground(getResources().getDrawable(R.drawable.background_for_weeks));
                 if (checkNetworkConnection(this)) {
                     tomorrowFragment = new TomorrowFragment();
-                    initFragment(tomorrowFragment, cityID, null, null, null);
+                    loadFragment(tomorrowFragment, cityID, null, null, null);
                 } else {
                     ToastHelper.noConnectionServiceToast(this);
                 }
@@ -120,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements ITodayFragmentToM
                 today.setBackground(getResources().getDrawable(R.drawable.background_for_weeks));
                 if (checkNetworkConnection(this)) {
                     weeklyFragment = new WeeklyFragment();
-                    initFragment(weeklyFragment, 0, null, null, null);
+                    loadFragment(weeklyFragment, cityID, null, null, null);
                 } else {
                     ToastHelper.noConnectionServiceToast(this);
                 }
@@ -128,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements ITodayFragmentToM
         }
     }
 
-    private void initFragment(Fragment fragment, int cityID, String lat, String lon, String cityName) {
+    private void loadFragment(Fragment fragment, int cityID, String lat, String lon, String cityName) {
         Bundle bundle = new Bundle();
         bundle.putInt("id", cityID);
         bundle.putString("lat", lat);
@@ -150,16 +161,6 @@ public class MainActivity extends AppCompatActivity implements ITodayFragmentToM
                 inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
             }
         });
-    }
-
-    public void startWeeklyWeatherActivity() {
-        if (cityID != 0) {
-            Intent intent = new Intent(this, WeeklyWeatherActivity.class);
-            intent.putExtra("cityID", cityID);
-            startActivity(intent);
-        } else {
-            ToastHelper.noCityEnteredToast(this);
-        }
     }
 
     public void checkLocationPermission() {
@@ -201,7 +202,11 @@ public class MainActivity extends AppCompatActivity implements ITodayFragmentToM
                     lon = String.valueOf(longiTude);
                     //presenter.fetchForecastByCord(lat, lon);
                     todayFragment = new TodayFragment(this);
-                    initFragment(todayFragment, 0, lat, lon, null);
+                    loadFragment(todayFragment, 0, lat, lon, null);
+                    today.setBackground(getResources().getDrawable(R.drawable.background_for_today));
+                    tomorrow.setBackground(getResources().getDrawable(R.drawable.background_for_weeks));
+                    weekly.setBackground(getResources().getDrawable(R.drawable.background_for_weeks));
+                    setAnimations();
                     refreshLayout.setRefreshing(false);
                     //startProgressDialog();
                 } else {
@@ -242,4 +247,5 @@ public class MainActivity extends AppCompatActivity implements ITodayFragmentToM
     public void getCityId(int idOfCity) {
         cityID = idOfCity;
     }
+
 }
