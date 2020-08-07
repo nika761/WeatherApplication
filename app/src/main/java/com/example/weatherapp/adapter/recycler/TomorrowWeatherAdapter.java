@@ -1,6 +1,5 @@
 package com.example.weatherapp.adapter.recycler;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,7 @@ public class TomorrowWeatherAdapter extends RecyclerView.Adapter<TomorrowWeather
     @NonNull
     @Override
     public ForecastViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ForecastViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.forecast_item, parent, false));
+        return new ForecastViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tomorrow_weather, parent, false));
     }
 
     @Override
@@ -36,7 +35,6 @@ public class TomorrowWeatherAdapter extends RecyclerView.Adapter<TomorrowWeather
         holder.date.setText(listItems.get(position).getDt_txt().split(" ")[0]);
         holder.currentHour.setText(listItems.get(position).getDt_txt().split(" ")[1].substring(0, 5) + "");
         holder.temperature.setText(listItems.get(position).getMain().getTemp() + " C\u00B0");
-        holder.precipitation.setText(listItems.get(position).getMain().getHumidity() + "%");
         String weatherIconID = listItems.get(position).getWeather().get(0).getIcon();
         Glide.with(holder.temperature.getContext())
                 .load("http://openweathermap.org/img/wn/" + weatherIconID + "@2x.png")
@@ -53,14 +51,13 @@ public class TomorrowWeatherAdapter extends RecyclerView.Adapter<TomorrowWeather
     }
 
     class ForecastViewHolder extends RecyclerView.ViewHolder {
-        TextView date, temperature, precipitation, currentHour;
+        TextView date, temperature, currentHour;
         ImageView weatherImage;
 
         ForecastViewHolder(@NonNull View itemView) {
             super(itemView);
             date = itemView.findViewById(R.id.recycler_date);
             temperature = itemView.findViewById(R.id.recycler_temperature);
-            precipitation = itemView.findViewById(R.id.recycler_precipitation_percent);
             weatherImage = itemView.findViewById(R.id.recycler_weather_image);
             currentHour = itemView.findViewById(R.id.first_hour_recycler);
         }

@@ -10,14 +10,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.weatherapp.R;
+import com.example.weatherapp.adapter.recycler.TomorrowWeatherAdapter;
 import com.example.weatherapp.helper.Utils;
 import com.example.weatherapp.model.CurrentWeatherResponse;
+import com.example.weatherapp.model.ListItems;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -26,9 +31,11 @@ public class TodayFragment extends Fragment {
     private ImageView weatherImage;
     private TextView date;
     private CurrentWeatherResponse currentWeatherResponse;
+    private List<ListItems> nextDayWeather;
 
-    public TodayFragment(CurrentWeatherResponse currentWeatherResponse) {
+    public TodayFragment(CurrentWeatherResponse currentWeatherResponse, List<ListItems> nextDayWeather) {
         this.currentWeatherResponse = currentWeatherResponse;
+        this.nextDayWeather = nextDayWeather;
     }
 
     @Nullable
@@ -39,7 +46,7 @@ public class TodayFragment extends Fragment {
         weatherImage = view.findViewById(R.id.weather_icon);
 
         TextView temperature = view.findViewById(R.id.weather_temperature);
-        temperature.setText(currentWeatherResponse.getMain().getTemp() + " C\u00B0");
+        temperature.setText(String.format("%s C°", currentWeatherResponse.getMain().getTemp()));
 
         TextView cityName = view.findViewById(R.id.city_name_layout);
         cityName.setText(currentWeatherResponse.getName());
@@ -51,13 +58,16 @@ public class TodayFragment extends Fragment {
         date.setText(Utils.getCurrentDate());
 
         TextView windSpeed = view.findViewById(R.id.wind);
-        windSpeed.setText(currentWeatherResponse.getWind().getSpeed() + " km/h");
+        windSpeed.setText(String.format("%s km/h", currentWeatherResponse.getWind().getSpeed()));
 
 //        LottieAnimationView windAnimation = view.findViewById(R.id.wind_animation);
 //        windAnimation.setVisibility(View.VISIBLE);
 
-        TextView precipitation = view.findViewById(R.id.precipitation);
-        precipitation.setText(currentWeatherResponse.getMain().getPressure() + "");
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_tomorrow);
+        TomorrowWeatherAdapter tomorrowWeatherAdapter = new TomorrowWeatherAdapter(nextDayWeather);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(tomorrowWeatherAdapter);
 
         TextView weatherDescription = view.findViewById(R.id.weather_description);
         weatherDescription.setText(currentWeatherResponse.getWeather().get(0).getDescription());

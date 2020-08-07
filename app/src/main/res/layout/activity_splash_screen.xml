@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/trueBlack">
+    android:background="@color/white">
 
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -20,10 +20,10 @@
         app:civ_border_color="#FF000000"/>
 
     <TextView
-        android:text="Weather Application"
+        android:text="Weather App"
         android:layout_marginTop="10dp"
         android:id="@+id/weather_app_name"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="18sp"
         android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
         android:text="\u00a9 2020"
         android:id="@+id/copyright"
         android:layout_marginTop="10dp"
-        android:textColor="@color/yellow"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="18sp"
         android:layout_width="wrap_content"
@@ -44,19 +44,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:text="Created by Nika Butskhrikidze "
-        android:layout_marginTop="10dp"
-        android:id="@+id/author"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/copyright"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

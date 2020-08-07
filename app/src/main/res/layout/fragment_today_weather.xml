@@ -3,36 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/splash">
+    android:background="@color/white">
 
-    <LinearLayout
-        android:id="@+id/linear1"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_w"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:gravity="start"
-        android:orientation="vertical"
-        android:paddingStart="14dp"
-        android:paddingEnd="12dp"
-        android:paddingBottom="10dp"
-        app:layout_constraintEnd_toStartOf="@id/linear2"
+        android:background="@color/splash"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <ImageView
             android:id="@+id/weather_icon"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            app:layout_constraintEnd_toStartOf="@id/city_name_layout"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/weather_temperature"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:hint="C\u00B0"
@@ -40,7 +32,7 @@
             android:textColorHint="@color/white"
             android:textSize="22sp"
             android:textStyle="bold|italic"
-            app:layout_constraintEnd_toEndOf="@id/weather_icon"
+            app:layout_constraintEnd_toStartOf="@id/humidity"
             app:layout_constraintStart_toStartOf="@id/weather_icon"
             app:layout_constraintTop_toBottomOf="@id/weather_icon" />
 
@@ -53,73 +45,10 @@
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/weather_icon"
+            app:layout_constraintTop_toBottomOf="@id/weather_temperature" />
 
-        <TextView
-            android:id="@+id/precipitation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="45dp"
-            android:hint="Loading.."
-            android:textColor="@color/orange"
-            android:textColorHint="@color/orange"
-            android:textSize="18sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Precipitation"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/humidity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:hint="Loading.."
-            android:textColor="@color/orange"
-            android:textColorHint="@color/orange"
-            android:textSize="18sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Humidity"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/wind"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:hint="Loading.."
-            android:textColor="@color/orange"
-            android:textColorHint="@color/orange"
-            android:textSize="18sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Wind Speed"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textSize="15sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linear2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/linear1"
-        app:layout_constraintTop_toTopOf="@id/linear1">
 
         <TextView
             android:id="@+id/city_name_layout"
@@ -130,7 +59,9 @@
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textSize="28sp"
-            android:textStyle="bold|italic" />
+            android:textStyle="bold|italic"
+            app:layout_constraintStart_toEndOf="@id/weather_icon"
+            app:layout_constraintTop_toTopOf="@id/weather_icon" />
 
         <TextView
             android:id="@+id/date"
@@ -139,20 +70,81 @@
             android:layout_marginTop="30dp"
             android:hint="Tuesday, 04 june, 2019"
             android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:textColorHint="@color/white"
+            app:layout_constraintStart_toStartOf="@id/city_name_layout"
+            app:layout_constraintTop_toBottomOf="@id/city_name_layout" />
+
+        <TextView
+            android:id="@+id/humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="Loading.."
+            android:textColor="@color/orange"
+            android:textColorHint="@color/orange"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@id/humidity_text"
+            app:layout_constraintStart_toStartOf="@id/city_name_layout" />
+
+        <TextView
+            android:id="@+id/humidity_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Humidity"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/weather_description"
+            app:layout_constraintStart_toStartOf="@id/humidity" />
+
+        <TextView
+            android:id="@+id/wind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:hint="Loading.."
+            android:textColor="@color/orange"
+            android:textColorHint="@color/orange"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@id/wind_text"
+            app:layout_constraintStart_toEndOf="@id/humidity" />
+
+        <TextView
+            android:id="@+id/wind_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wind Speed"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/weather_description"
+            app:layout_constraintStart_toStartOf="@id/wind" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/title_tomorrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tomorrow Weather"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="30dp"
+        android:textColor="@color/yellowTextView"
+        android:textColorHint="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/recycler_tomorrow"
+        app:layout_constraintStart_toStartOf="@id/container_w"
+        app:layout_constraintTop_toBottomOf="@id/container_w" />
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/wind_animation"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/linear1"
-        app:layout_constraintStart_toEndOf="@id/linear1"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/wind_mill" />
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_tomorrow"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_tomorrow" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,7 +29,7 @@ import static com.example.weatherapp.helper.SystemHelper.requestLocationPermissi
 public class SplashScreenActivity extends AppCompatActivity {
 
     private ImageView icon;
-    private TextView appName, copyright, author;
+    private TextView appName, copyright;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         icon = findViewById(R.id.splash_screen_image);
         appName = findViewById(R.id.weather_app_name);
         copyright = findViewById(R.id.copyright);
-        author = findViewById(R.id.author);
     }
 
     private void makeAnimation() {
@@ -52,7 +51,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         icon.startAnimation(animation);
         appName.startAnimation(animation);
         copyright.startAnimation(animation);
-        author.startAnimation(animation);
     }
 
     private void startApplication() {

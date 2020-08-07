@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +21,6 @@ import com.example.weatherapp.helper.Utils;
 import com.example.weatherapp.interfaces.IMainActivity;
 import com.example.weatherapp.adapter.pager.DaysPagerAdapter;
 import com.example.weatherapp.fragments.TodayFragment;
-import com.example.weatherapp.fragments.TomorrowFragment;
 import com.example.weatherapp.fragments.WeeklyFragment;
 import com.example.weatherapp.helper.ToastHelper;
 import com.example.weatherapp.model.CurrentWeatherResponse;
@@ -105,8 +102,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Vi
 
     private void setViewPager(CurrentWeatherResponse currentWeather, String cityName, List<ListItems> nextDayWeather, List<ListItems> weeklyWeather) {
         DaysPagerAdapter daysPagerAdapter = new DaysPagerAdapter(getSupportFragmentManager());
-        daysPagerAdapter.addFragment(new TodayFragment(currentWeather), "Today");
-        daysPagerAdapter.addFragment(new TomorrowFragment(nextDayWeather, cityName), "Tomorrow");
+        daysPagerAdapter.addFragment(new TodayFragment(currentWeather, nextDayWeather), "Today");
         daysPagerAdapter.addFragment(new WeeklyFragment(weeklyWeather, cityName), "Weekly");
 
         loaderAnimation.setVisibility(View.GONE);
