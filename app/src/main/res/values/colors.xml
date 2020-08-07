@@ -7,11 +7,15 @@
     <color name="orange">#FFA000</color>
     <color name="gray">#9050666B</color>
     <color name="black">#C80F0F0F</color>
+    <color name="transparent">#6F000000</color>
+    <color name="yellowTextView">#F3BC1E</color>
     <color name="trueBlack">#000000</color>
     <color name="yellow">#F3E701</color>
     <color name="orange25">#BCF8C50C</color>
     <color name="blue">#D80239FF</color>
     <color name="blackforcardview">#6A000000</color>
     <color name="splash">#2E314C</color>
+    <color name="red">#FF1717</color>
+
 
 </resources>

@@ -1,9 +1,7 @@
-package com.example.weatherapp.utils;
+package com.example.weatherapp.helper;
 
 import android.content.Context;
 import android.widget.Toast;
-
-import es.dmoral.toasty.Toasty;
 
 public class ToastHelper {
 

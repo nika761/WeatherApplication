@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class WeatherMainState {
+public class CurrentWeatherResponse {
 
     @Expose
     @SerializedName("cod")
@@ -257,10 +257,10 @@ public class WeatherMainState {
         private int pressure;
         @Expose
         @SerializedName("temp_max")
-        private Double temp_max;
+        private double temp_max;
         @Expose
         @SerializedName("temp_min")
-        private Double temp_min;
+        private double temp_min;
         @Expose
         @SerializedName("feels_like")
         private double feels_like;
@@ -284,7 +284,7 @@ public class WeatherMainState {
             this.pressure = pressure;
         }
 
-        public Double getTemp_max() {
+        public double getTemp_max() {
             return temp_max;
         }
 
@@ -292,7 +292,7 @@ public class WeatherMainState {
             this.temp_max = temp_max;
         }
 
-        public Double getTemp_min() {
+        public double getTemp_min() {
             return temp_min;
         }
 
@@ -308,9 +308,8 @@ public class WeatherMainState {
             this.feels_like = feels_like;
         }
 
-        public int getTemp() {
-            int a = (int) Math.round(temp);
-            return a;
+        public double getTemp() {
+            return temp;
         }
 
         public void setTemp(double temp) {
@@ -377,7 +376,7 @@ public class WeatherMainState {
             return lat;
         }
 
-        public void setLat(double lat) {
+        public void setLat(int lat) {
             this.lat = lat;
         }
 
@@ -385,7 +384,7 @@ public class WeatherMainState {
             return lon;
         }
 
-        public void setLon(double lon) {
+        public void setLon(int lon) {
             this.lon = lon;
         }
     }

@@ -1,6 +1,5 @@
-package com.example.weatherapp.adapter;
+package com.example.weatherapp.adapter.recycler;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,36 +18,33 @@ import com.example.weatherapp.model.ListItems;
 
 import java.util.List;
 
-public class WeeklyForecastAdapter extends RecyclerView.Adapter<WeeklyForecastAdapter.WeeklyViewHolder> {
+public class TomorrowWeatherAdapter extends RecyclerView.Adapter<TomorrowWeatherAdapter.ForecastViewHolder> {
     private List<ListItems> listItems;
-    private Context contextWeekly;
 
-    public WeeklyForecastAdapter(Context context) {
-        contextWeekly = context;
+    public TomorrowWeatherAdapter(List<ListItems> listItems) {
+        this.listItems = listItems;
     }
 
     @NonNull
     @Override
-    public WeeklyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater
-                .from(parent.getContext())
-                .inflate(R.layout.forecast_item, parent, false);
-        return new WeeklyViewHolder(view);
+    public ForecastViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ForecastViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.forecast_item, parent, false));
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull WeeklyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ForecastViewHolder holder, int position) {
         holder.date.setText(listItems.get(position).getDt_txt().split(" ")[0]);
         holder.currentHour.setText(listItems.get(position).getDt_txt().split(" ")[1].substring(0, 5) + "");
         holder.temperature.setText(listItems.get(position).getMain().getTemp() + " C\u00B0");
         holder.precipitation.setText(listItems.get(position).getMain().getHumidity() + "%");
         String weatherIconID = listItems.get(position).getWeather().get(0).getIcon();
-        Glide.with(contextWeekly)
+        Glide.with(holder.temperature.getContext())
                 .load("http://openweathermap.org/img/wn/" + weatherIconID + "@2x.png")
                 .into(holder.weatherImage);
-        Animation animation = AnimationUtils.loadAnimation(contextWeekly, R.anim.animation_item);
+
+        Animation animation = AnimationUtils.loadAnimation(holder.temperature.getContext(), R.anim.animation_recycler_item);
         holder.itemView.startAnimation(animation);
+
     }
 
     @Override
@@ -56,19 +52,11 @@ public class WeeklyForecastAdapter extends RecyclerView.Adapter<WeeklyForecastAd
         return listItems.size();
     }
 
-    public void setListItems(List<ListItems> getForecastListItems) {
-        listItems = getForecastListItems;
-        notifyDataSetChanged();
-    }
-
-    class WeeklyViewHolder extends RecyclerView.ViewHolder {
-        TextView date;
-        TextView temperature;
-        TextView precipitation;
+    class ForecastViewHolder extends RecyclerView.ViewHolder {
+        TextView date, temperature, precipitation, currentHour;
         ImageView weatherImage;
-        TextView currentHour;
 
-        public WeeklyViewHolder(@NonNull View itemView) {
+        ForecastViewHolder(@NonNull View itemView) {
             super(itemView);
             date = itemView.findViewById(R.id.recycler_date);
             temperature = itemView.findViewById(R.id.recycler_temperature);
@@ -77,4 +65,5 @@ public class WeeklyForecastAdapter extends RecyclerView.Adapter<WeeklyForecastAd
             currentHour = itemView.findViewById(R.id.first_hour_recycler);
         }
     }
+
 }

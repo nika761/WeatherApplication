@@ -4,24 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clickable="true"
+    android:background="@color/black"
     android:focusableInTouchMode="true"
-    android:background="@color/trueBlack"
-    android:padding="10dp"
-    tools:context=".presentation.activityUI.MainActivity">
+    tools:context=".activity.MainActivity">
 
     <EditText
-        android:textDirection="locale"
         android:id="@+id/text_view_city_search"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/background_for_edittext_search"
         android:gravity="center"
         android:hint="Search city"
-        android:textColor="@color/white"
-        android:singleLine="true"
         android:imeOptions="actionDone"
+        android:singleLine="true"
+        android:textColor="@color/white"
         android:textColorHint="@color/white"
+        android:textDirection="locale"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@id/search_button"
         app:layout_constraintEnd_toStartOf="@id/search_button"
@@ -32,269 +31,77 @@
         android:id="@+id/search_button"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:imeOptions="actionDone"
+        android:layout_marginTop="10dp"
         android:background="@drawable/background_for_search_button"
         android:drawableStart="@drawable/ic_search_black_24dp"
+        android:imeOptions="actionDone"
         app:layout_constraintBottom_toBottomOf="@id/text_view_city_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_layout"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/day_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/splash"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_view_city_search"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/orange"
+        app:tabIndicatorFullWidth="false"
+        app:tabRippleColor="@android:color/transparent"
+        app:tabSelectedTextColor="@color/orange"
+        app:tabTextColor="@color/white">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/today_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Today" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tomorrow_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tomorrow" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/weekly_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weekly" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/days_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="15dp"
-        android:layout_width="0dp"
-        android:layout_height="0dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/day_tabs" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/background_for_city_items"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/search_button">
+    <FrameLayout
+        android:id="@+id/loader_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray"
+        android:visibility="gone">
 
-            <FrameLayout
-                android:id="@+id/frame_for_monthly_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loader"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loader_weather" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/today"
-                        android:layout_width="60dp"
-                        android:layout_height="30dp"
-                        android:layout_marginStart="8dp"
-                        android:background="@drawable/background_for_today"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:hint="Today"
-                        android:textColorHint="@color/white"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tomorrow"
-                        android:layout_width="60dp"
-                        android:layout_height="30dp"
-                        android:layout_marginStart="8dp"
-                        android:background="@drawable/click_state"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:hint="Tomorrow"
-                        android:textColorHint="@color/white"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/weekly"
-                        android:layout_width="60dp"
-                        android:layout_height="30dp"
-                        android:layout_marginStart="8dp"
-                        android:background="@drawable/click_state"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:hint="Weekly"
-                        android:textColorHint="@color/white"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-            </FrameLayout>
-
-            <ImageView
-                android:id="@+id/weather_icon"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/city_name_layout"
-                app:layout_constraintTop_toBottomOf="@id/frame_for_monthly_view" />
-
-            <TextView
-                android:id="@+id/city_name_layout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:fontFamily="casual"
-                android:hint="Loading.. "
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:textSize="22sp"
-                android:textStyle="bold|italic"
-                app:layout_constraintStart_toEndOf="@id/weather_icon"
-                app:layout_constraintTop_toTopOf="@id/weather_icon"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Tuesday, 04 june, 2019"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                app:layout_constraintBottom_toBottomOf="@id/weather_icon"
-                app:layout_constraintStart_toStartOf="@id/city_name_layout" />
-
-            <TextView
-                android:id="@+id/weather_temperature"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:hint="C\u00B0 "
-                android:textColorHint="@color/white"
-                android:textSize="24sp"
-                android:textStyle="bold|italic"
-                app:layout_constraintEnd_toEndOf="@id/weather_icon"
-                app:layout_constraintStart_toStartOf="@id/weather_icon"
-                app:layout_constraintTop_toBottomOf="@id/weather_icon" />
-
-            <TextView
-                android:id="@+id/weather_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Loading.."
-                android:textSize="16sp"
-                android:textColorHint="@color/white"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/weather_temperature"
-                app:layout_constraintStart_toStartOf="@id/city_name_layout"
-                app:layout_constraintTop_toTopOf="@id/weather_temperature" />
-
-            <LinearLayout
-                android:id="@+id/linear_for_hours_view"
-                android:layout_width="80dp"
-                android:layout_height="0dp"
-                android:background="@drawable/hours_corner_background"
-                android:clickable="true"
-                android:gravity="center|clip_vertical"
-                android:orientation="vertical"
-                android:layout_marginBottom="10dp"
-                android:paddingStart="25dp"
-                android:paddingEnd="0dp"
-                app:layout_constraintBottom_toBottomOf="@id/weather_conditions"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/weather_conditions">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="4dp"
-                    android:text="12:00"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="4dp"
-                    android:text="15:00"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="4dp"
-                    android:text="18:00"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="4dp"
-                    android:text="21:00"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="4dp"
-                    android:text="00:00"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/weather_conditions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical"
-                app:layout_constraintStart_toStartOf="@id/weather_icon"
-                app:layout_constraintTop_toBottomOf="@id/weather_temperature">
-
-                <TextView
-                    android:id="@+id/precipitation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Loading.."
-                    android:textColor="@color/orange"
-                    android:textColorHint="@color/orange"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Precipitation"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/humidity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:hint="Loading.."
-                    android:textColor="@color/orange"
-                    android:textColorHint="@color/orange"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Humidity"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/wind"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:hint="Loading.."
-                    android:textColor="@color/orange"
-                    android:textColorHint="@color/orange"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:text="Wind Speed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

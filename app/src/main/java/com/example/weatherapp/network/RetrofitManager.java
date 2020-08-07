@@ -8,16 +8,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitManager {
 
     private static Retrofit retrofit;
-    private static OkHttpClient okHttpClient;
-    private static HttpLoggingInterceptor interceptor;
-
 
     private static Retrofit getRetrofit (){
 
         if (retrofit==null){
-            interceptor = new HttpLoggingInterceptor();
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.level(HttpLoggingInterceptor.Level.BODY);
-            okHttpClient = new OkHttpClient.Builder()
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .addInterceptor(interceptor)
                     .build();
             retrofit = new Retrofit.Builder()
@@ -29,7 +26,7 @@ public class RetrofitManager {
         return retrofit;
     }
 
-    public static ApiService getApiservice (){
+    public static ApiService getApiService (){
         return getRetrofit().create(ApiService.class);
     }
 }
