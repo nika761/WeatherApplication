@@ -6,7 +6,7 @@ import com.example.weatherapp.model.WeatherMainStatebyID;
 
 import java.util.List;
 
-public interface IMainActivity {
+public interface MainActivityListener {
 
 
     void onUpdateWeather(CurrentWeatherResponse currentWeatherResponse);

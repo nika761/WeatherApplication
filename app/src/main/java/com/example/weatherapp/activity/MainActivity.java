@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.weatherapp.R;
 import com.example.weatherapp.helper.Utils;
-import com.example.weatherapp.interfaces.IMainActivity;
 import com.example.weatherapp.adapter.pager.DaysPagerAdapter;
 import com.example.weatherapp.fragments.TodayFragment;
 import com.example.weatherapp.fragments.WeeklyFragment;
@@ -36,7 +35,7 @@ import java.util.Objects;
 
 import static com.example.weatherapp.helper.SystemHelper.checkNetworkConnection;
 
-public class MainActivity extends AppCompatActivity implements IMainActivity, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements com.example.weatherapp.interfaces.MainActivityListener, View.OnClickListener {
     private EditText editTextForCity;
     private TextView searchButtonForCity;
     private MainActivityPresenter mainActivityPresenter;
@@ -63,8 +62,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Vi
         button.setOnClickListener(this);
         builder.setView(dialogView);
         dialog = builder.create();
-        Objects.requireNonNull(dialog.getWindow())
-                .setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_dialog, null));
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_dialog, null));
 
 
         editTextForCity = findViewById(R.id.text_view_city_search);
@@ -90,9 +88,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Vi
             if (task.isSuccessful()) {
                 Location location = task.getResult();
                 if (location != null) {
-                    mainActivityPresenter.getCurrentWeatherByCord(
-                            String.valueOf(location.getLatitude()),
-                            String.valueOf(location.getLongitude()));
+                    mainActivityPresenter.getCurrentWeatherByCord(String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()));
                 } else {
                     ToastHelper.noLocationServiceToast(this);
                 }
@@ -101,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Vi
     }
 
     private void setViewPager(CurrentWeatherResponse currentWeather, String cityName, List<ListItems> nextDayWeather, List<ListItems> weeklyWeather) {
+
         DaysPagerAdapter daysPagerAdapter = new DaysPagerAdapter(getSupportFragmentManager());
         daysPagerAdapter.addFragment(new TodayFragment(currentWeather, nextDayWeather), "Today");
         daysPagerAdapter.addFragment(new WeeklyFragment(weeklyWeather, cityName), "Weekly");
@@ -124,10 +121,8 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Vi
 
     @Override
     public void onUpdateWeeklyWeatherByID(WeatherMainStatebyID weatherMainStatebyID) {
-        List<ListItems> nextDayWeather = Utils.getFilteredDates(weatherMainStatebyID.getList(),
-                Utils.getNextDay(Utils.getAllDates(weatherMainStatebyID)));
-        setViewPager(currentWeatherResponse, weatherMainStatebyID.getCity().getName(),
-                nextDayWeather, weatherMainStatebyID.getList());
+        List<ListItems> nextDayWeather = Utils.getFilteredDates(weatherMainStatebyID.getList(), Utils.getNextDay(Utils.getAllDates(weatherMainStatebyID)));
+        setViewPager(currentWeatherResponse, weatherMainStatebyID.getCity().getName(), nextDayWeather, weatherMainStatebyID.getList());
     }
 
     @Override

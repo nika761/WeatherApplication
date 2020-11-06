@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.Animation;
@@ -14,10 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.weatherapp.R;
-import com.example.weatherapp.fragments.TodayFragment;
 import com.example.weatherapp.helper.ToastHelper;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.tasks.Task;
 
 import static com.example.weatherapp.helper.SystemHelper.LOCATION;
 import static com.example.weatherapp.helper.SystemHelper.checkLocationService;
@@ -28,30 +24,25 @@ import static com.example.weatherapp.helper.SystemHelper.requestLocationPermissi
 
 public class SplashScreenActivity extends AppCompatActivity {
 
-    private ImageView icon;
-    private TextView appName, copyright;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        iniUi();
-        makeAnimation();
+        initUI();
         checkLocationPermission();
     }
 
-    private void iniUi() {
-        icon = findViewById(R.id.splash_screen_image);
-        appName = findViewById(R.id.weather_app_name);
-        copyright = findViewById(R.id.copyright);
-    }
+    private void initUI() {
+        ImageView icon = findViewById(R.id.splash_screen_image);
+        TextView appName = findViewById(R.id.weather_app_name);
+        TextView copyright = findViewById(R.id.copyright);
 
-    private void makeAnimation() {
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.animation_recycler_item);
         icon.startAnimation(animation);
         appName.startAnimation(animation);
         copyright.startAnimation(animation);
     }
+
 
     private void startApplication() {
         int SPLASH_DISPLAY_LENGTH = 3000;
@@ -65,28 +56,19 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     public void checkLocationPermission() {
         if (isLocationPermissionGranted(this)) {
-            onCheckLocationService();
+            if (checkLocationService(this)) {
+                if (checkNetworkConnection(this))
+                    startApplication();
+                else
+                    ToastHelper.noConnectionServiceToast(this);
+
+            } else {
+                ToastHelper.noLocationServiceToast(this);
+            }
         } else {
             requestLocationPermission(this);
         }
     }
-
-    public void onCheckNetworkConnection() {
-        if (checkNetworkConnection(this)) {
-            startApplication();
-        } else {
-            ToastHelper.noConnectionServiceToast(this);
-        }
-    }
-
-    public void onCheckLocationService() {
-        if (checkLocationService(this)) {
-            onCheckNetworkConnection();
-        } else {
-            ToastHelper.noLocationServiceToast(this);
-        }
-    }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -94,7 +76,10 @@ public class SplashScreenActivity extends AppCompatActivity {
         switch (requestCode) {
             case LOCATION:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startApplication();
+                    if (checkLocationService(this) && checkNetworkConnection(this))
+                        startApplication();
+                    else
+                        ToastHelper.noConnectionServiceToast(this);
                 }
                 break;
         }

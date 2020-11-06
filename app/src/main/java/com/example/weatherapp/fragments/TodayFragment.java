@@ -28,8 +28,6 @@ import java.util.Objects;
 
 public class TodayFragment extends Fragment {
 
-    private ImageView weatherImage;
-    private TextView date;
     private CurrentWeatherResponse currentWeatherResponse;
     private List<ListItems> nextDayWeather;
 
@@ -43,7 +41,7 @@ public class TodayFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today_weather, container, false);
 
-        weatherImage = view.findViewById(R.id.weather_icon);
+        ImageView weatherImage = view.findViewById(R.id.weather_icon);
 
         TextView temperature = view.findViewById(R.id.weather_temperature);
         temperature.setText(String.format("%s C°", currentWeatherResponse.getMain().getTemp()));
@@ -54,7 +52,7 @@ public class TodayFragment extends Fragment {
         TextView humidity = view.findViewById(R.id.humidity);
         humidity.setText(currentWeatherResponse.getMain().getHumidity() + "%");
 
-        date = view.findViewById(R.id.date);
+        TextView date = view.findViewById(R.id.date);
         date.setText(Utils.getCurrentDate());
 
         TextView windSpeed = view.findViewById(R.id.wind);
@@ -72,15 +70,11 @@ public class TodayFragment extends Fragment {
         TextView weatherDescription = view.findViewById(R.id.weather_description);
         weatherDescription.setText(currentWeatherResponse.getWeather().get(0).getDescription());
 
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         String weatherIconID = currentWeatherResponse.getWeather().get(0).getIcon();
         Glide.with(date.getContext())
                 .load("http://openweathermap.org/img/wn/" + weatherIconID + "@2x.png")
                 .apply(new RequestOptions().centerCrop()).into(weatherImage);
+
+        return view;
     }
 }
