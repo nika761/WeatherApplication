@@ -58,9 +58,6 @@ public class TodayFragment extends Fragment {
         TextView windSpeed = view.findViewById(R.id.wind);
         windSpeed.setText(String.format("%s km/h", currentWeatherResponse.getWind().getSpeed()));
 
-//        LottieAnimationView windAnimation = view.findViewById(R.id.wind_animation);
-//        windAnimation.setVisibility(View.VISIBLE);
-
         RecyclerView recyclerView = view.findViewById(R.id.recycler_tomorrow);
         TomorrowWeatherAdapter tomorrowWeatherAdapter = new TomorrowWeatherAdapter(nextDayWeather);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));

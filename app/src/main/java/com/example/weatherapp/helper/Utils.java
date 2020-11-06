@@ -22,7 +22,7 @@ public class Utils {
 
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         String formattedDate = df.format(c);
 
         return currentDate;
